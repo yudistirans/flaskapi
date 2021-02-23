@@ -27,7 +27,7 @@ class Product(Resource):
     def post(self):
         pass
 
-    def delete(self, cd):
+    def delete(self, product_id):
         pass
 
     def put(self):
@@ -39,7 +39,7 @@ class Product(Resource):
             filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 class ProductSlug(Resource):
-    def get(self, slug):
+    def get(self, product_slug):
         pass
 
 class ProductList(Resource):
