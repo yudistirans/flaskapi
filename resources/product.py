@@ -32,7 +32,7 @@ class Product(Resource):
             if product:
                 return product.json(), 200
             return {'message': 'Product not found'}, 404  
-        return {'products': [x.json() for x in ProductModel.find_all()]}, 200
+        return [x.json() for x in ProductModel.find_all()], 200
 
     def post(self):
         data = Product.parser.parse_args()
@@ -141,4 +141,4 @@ class ProductSlug(Resource):
 
 class ProductList(Resource):
     def get(self):
-        return {'products': [x.json() for x in ProductModel.find_all()]}, 200
+        return [x.json() for x in ProductModel.find_all()], 200
