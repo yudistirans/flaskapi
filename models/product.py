@@ -11,15 +11,19 @@ class ProductModel(db.Model):
     product_name = db.Column(db.String(500))
     product_description = db.Column(db.Text) 
     product_image = db.Column(db.String(500))
+    product_price = db.Column(db.Integer)
+    product_stock = db.Column(db.Integer)
     created_on = db.Column(db.DateTime)
     updated_on = db.Column(db.DateTime)
 
-    def __init__(self, product_cd, product_slug, product_name, product_description, product_image, created_on, updated_on):
+    def __init__(self, product_cd, product_slug, product_name, product_description, product_image, product_price, product_stock, created_on, updated_on):
         self.product_cd = product_cd
         self.product_slug = product_slug
         self.product_name = product_name
         self.product_description = product_description
         self.product_image = product_image
+        self.product_price = product_price
+        self.product_stock = product_stock
         self.created_on = created_on
         self.updated_on = updated_on        
 
@@ -30,6 +34,8 @@ class ProductModel(db.Model):
             'product_name':self.product_name,
             'product_description':self.product_description,
             'product_image':self.product_image,
+            'product_price':self.product_price,
+            'product_stock':self.product_stock,
             'created_on':self.created_on.strftime("%Y-%m-%d %H:%M"),
             'updated_on':self.updated_on.strftime("%Y-%m-%d %H:%M") if self.updated_on else self.updated_on                   
         }    

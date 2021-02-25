@@ -23,6 +23,8 @@ class Product(Resource):
     parser.add_argument('product_name', type=non_empty_string, required=True, help="Product name can not be empty")
     parser.add_argument('product_description', type=non_empty_string, required=True, help="Product description can not be empty")
     parser.add_argument('product_image', type=werkzeug.datastructures.FileStorage, location='files')    
+    parser.add_argument('product_price', type=int, required=True, help="Product price can not be empty")
+    parser.add_argument('product_stock', type=int, required=True, help="Product stock can not be empty")
 
     def get(self, product_id = None):
         if product_id != None:
@@ -45,9 +47,7 @@ class Product(Resource):
         product_cd = 'P' + str(int(last_product_cd) + 1).zfill(4)
 
         product_slug = slugify(product_name)
-        product_description = data['product_description']      
-        created_on = datetime.datetime.now()
-     
+        product_description = data['product_description']         
         product_image = data['product_image']
 
         if product_image and Product.allowed_file(product_image.filename):
@@ -58,7 +58,11 @@ class Product(Resource):
         else:
             return {"message": "Image can not be empty and check your format image!"}, 400           
         
-        product = ProductModel(product_cd, product_slug, product_name, product_description, product_image_path, created_on, None)
+        product_price = data['product_price']
+        product_stock = data['product_stock'] 
+        created_on = datetime.datetime.now()
+
+        product = ProductModel(product_cd, product_slug, product_name, product_description, product_image_path, product_price, product_stock, created_on, None)
         
         try:
             product.save_to_db()
@@ -79,9 +83,11 @@ class Product(Resource):
 
         product_id = data['product_id']
         product_name = data['product_name']   
-        product_slug = slugify(product_name)
-        product_image = data['product_image']  
+        product_slug = slugify(product_name)        
         product_description = data['product_description']
+        product_image = data['product_image']  
+        product_price = data['product_price']
+        product_stock = data['product_stock']
         updated_on = datetime.datetime.now()
         
         is_exist = ProductModel.find_by_name(product_name)
@@ -95,8 +101,7 @@ class Product(Resource):
             
             product.product_name = product_name
             product.product_slug = product_slug
-            product.product_description = product_description
-            product.updated_on = updated_on
+            product.product_description = product_description            
 
             if product_image:
                 if Product.allowed_file(product_image.filename):
@@ -110,6 +115,10 @@ class Product(Resource):
                     product.product_image = product_image_path    
                 else:
                     return {"message": {'image': 'Image allowed filetypes : png,jpeg,jpg'}}, 400               
+            
+            product.product_price = product_price
+            product.product_stock = product_stock
+            product.updated_on = updated_on
 
             product.save_to_db()
 
