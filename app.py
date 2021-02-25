@@ -18,14 +18,12 @@ from db import db
 db.init_app(app)
 migrate = Migrate(app, db, compare_type=True)
 
-# Product category route
-product_routes = [
-    '/product',
-    '/product/<string:product_id>',
-]
-api.add_resource(Product, *product_routes)
+# CMS endpoint
+api.add_resource(Product, '/cms/product', '/cms/product/<int:product_id>', endpoint='product')
+
+# Public site endpoint
 api.add_resource(ProductSlug, '/api/product/<string:product_slug>')
-api.add_resource(ProductList, '/api/products')
+api.add_resource(ProductList, '/api/product')
 
 if __name__ == '__main__':    
     app.run(port=5000, debug=True)

@@ -30,11 +30,8 @@ class ProductModel(db.Model):
             'product_name':self.product_name,
             'product_description':self.product_description,
             'product_image':self.product_image,
-            'image_icon':self.image_icon,
-            'created_on':self.created_on.strftime("%Y-%b-%d %X"), 
-            'created_on_disp':self.created_on.strftime("%Y-%m-%d %H:%M"),
-            'updated_on':self.updated_on.strftime("%Y-%b-%d %X") if self.updated_on else self.updated_on,
-            'updated_on_disp':self.updated_on.strftime("%Y-%m-%d %H:%M") if self.updated_on else self.updated_on                   
+            'created_on':self.created_on.strftime("%Y-%m-%d %H:%M"),
+            'updated_on':self.updated_on.strftime("%Y-%m-%d %H:%M") if self.updated_on else self.updated_on                   
         }    
 
     def save_to_db(self):
@@ -46,30 +43,22 @@ class ProductModel(db.Model):
         db.session.commit()
 
     @classmethod
-    def find_by_id(cls, id):
-        return cls.query.filter_by(id=id).filter(cls.status!='deleted').first()    
-
-    @classmethod
-    def find_by_cd(cls, cd, lang):
-        return cls.query.filter_by(product_category_cd=cd).filter_by(language=lang).filter(cls.status!='deleted').first()
-
-    @classmethod
-    def find_last_id(cls):
-        return cls.query.order_by(cls.id.desc()).first()
+    def find_by_id(cls, product_id):
+        return cls.query.filter_by(product_id=product_id).first()        
 
     @classmethod
     def find_last_cd(cls):
-        return cls.query.order_by(cls.product_category_cd.desc()).first()
+        return cls.query.order_by(cls.product_cd.desc()).first()
 
     @classmethod
-    def find_by_slug(cls, slug):
-        return cls.query.filter_by(slug=slug).filter(cls.status!='deleted').first()    
+    def find_by_slug(cls, product_slug):
+        return cls.query.filter_by(product_slug=product_slug).first()    
 
     @classmethod
-    def find_by_name(cls, name):
-        return cls.query.filter(cls.name.ilike(name)).filter(cls.status!='deleted').first()    
+    def find_by_name(cls, product_name):
+        return cls.query.filter(cls.product_name.ilike(product_name)).first()    
 
     @classmethod
     def find_all(cls):
-        return cls.query.filter(cls.status!='deleted').order_by(cls.order.asc())
+        return cls.query.order_by(cls.product_id.desc())
 
