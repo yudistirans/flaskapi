@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask
 from flask_restful import Resource, reqparse
 from models.product import ProductModel
 import werkzeug, os, uuid, datetime, boto3, botocore
