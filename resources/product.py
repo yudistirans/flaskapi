@@ -75,8 +75,8 @@ class Product(Resource):
         product = ProductModel.find_by_id(product_id)
         if product:
             product.delete_from_db()
-
-        return {'message': 'Product deleted'}
+            return {'message': 'Product deleted'}, 200
+        return {'message': 'Product not found.'}, 404
 
     def put(self):
         data = Product.parser.parse_args() 
