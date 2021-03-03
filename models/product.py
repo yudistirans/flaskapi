@@ -15,6 +15,7 @@ class ProductModel(db.Model):
     product_stock = db.Column(db.Integer)
     created_on = db.Column(db.DateTime)
     updated_on = db.Column(db.DateTime)
+    status = db.Column(db.String(10))
 
     def __init__(self, product_cd, product_slug, product_name, product_description, product_image, product_price, product_stock, created_on, updated_on):
         self.product_cd = product_cd
